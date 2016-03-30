@@ -8,10 +8,6 @@
     </div>
 </form>
 <br>
-{% if registration_error %}
-    <span style="color: red; text-align:center"> [{{ registration_error }}]</span>
-{% endif %}
-<br>
 
 <form class="col-lg-12" action="{{url_for('validate_login')}}" method="POST">
     <div style="width:340px;text-align:center;margin:0 auto;">
@@ -21,8 +17,8 @@
 </form>
 
 <br>
-{% if login_error %}
-    <span style="color: red; text-align:center"> [{{ login_error }}]</span>
+{% if error %}
+    <span style="color: red; text-align:center"> [{{ error }}]</span>
 {% endif %}
 <br>
 
