@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi, {{ user }}!</h1>
+{% endblock %}
 
-<h1>Hello!</h1>
 
-<form class="col-lg-12" action="{{url_for('register')}}" method="POST">
-    <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
-        <input placeholder="Enter your email address" type="email" name="email">
-        <span><button type="submit">GO</button></span>
-    </div>
-</form>
 
-</body>
-</html>
+
