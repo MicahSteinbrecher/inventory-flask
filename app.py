@@ -62,6 +62,15 @@ def index():
     else:
         return redirect(url_for('login')) #LOGIN AND REGISTER PAGE
 
+@app.route('/index/<log_id>')
+def render_stones(log_id):
+    log = db.session.query(Log).filter(Log.id == log_id).first()
+    user_data = db.session.query(User).filter(User.id == session['user']['id']).first()
+    return render_template('index.html',
+                       user = session['user'],
+                       logs = user_data.logs,
+                       stones = log.stones)
+
 #login and register
 @app.route('/login')
 def login():
@@ -103,6 +112,10 @@ def add_log():
     new_log = Log(request.form['name'], session['user']['id'])
     db.session.add(new_log)
     db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/add_stone', methods=['POST'])
+def add_stone():
     return redirect(url_for('index'))
 
 @app.route('/logout')

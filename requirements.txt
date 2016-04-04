@@ -1,5 +1,5 @@
 Flask==0.10.1
-flask-heroku==0.1.9
+Flask-Heroku==0.1.9
 Flask-SQLAlchemy==2.1
 gunicorn==19.4.5
 itsdangerous==0.24
