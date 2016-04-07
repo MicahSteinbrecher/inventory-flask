@@ -2,69 +2,10 @@ import os
 from flask import Flask, render_template, request, session, redirect, url_for, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
-
-app = Flask(__name__)
-
-#db for local developement
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/db_dev'
-db = SQLAlchemy(app)
-
-#db for cloud
-#heroku = Heroku(app)
-#db = SQLAlchemy(app)
-
-class User(db.Model):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True)
-    nickname = db.Column(db.String(120))
-    logs = db.relationship('Log', backref='user', lazy = 'dynamic')
-    stones = db.relationship('Stone', backref='user', lazy = 'dynamic')
-    '''
-    want to have option to initialize with a proper nickname,
-    and if no nickname is passed, do nickname = email
-    '''
-    def __init__(self, email):
-        self.email = email
-        self.nickname = email
-
-    def __repr__(self):
-        return '<User %r>' % self.email
-
-class Log(db.Model):
-    __tablename__ = 'log'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    stones =db.relationship ('Stone', backref='stone', lazy = 'dynamic')
-    value = db.Column(db.Float)
-
-    def __init__(self, name, user_id):
-        self.name = name
-        self.user_id = user_id
-
-class Stone(db.Model):
-    __tablename__ = 'stones'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    log_id = db.Column(db.Integer, db.ForeignKey('log.id'))
-    shape = db.Column(db.String(20))
-    color = db.Column(db.String(20))
-    clarity = db.Column(db.String(20))
-    size = db.Column(db.Float)
-    value = db.Column(db.Float)
-
-    def __str__(self):
-        str = 'shape: %s, color: %s, clarity: %s, size, %s' % (self.shape, self.color, self.clarity, self.size)
-        return str
-
-    def __init__(self, shape, color, clarity, size):
-        self.user_id = session['user']['id']
-        self.log_id = session['current_log_id']
-        self.shape = shape
-        self.color = color
-        self.clarity = clarity
-        self.size = size
+from models.User import User
+from models.Log import Log
+from models.Stone import Stone
+from config import app, db
 
 #Set homepage
 @app.route('/index/', methods=['GET', 'POST'])
