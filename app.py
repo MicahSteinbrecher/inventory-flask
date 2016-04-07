@@ -48,28 +48,47 @@ class Stone(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     log_id = db.Column(db.Integer, db.ForeignKey('log.id'))
+    shape = db.Column(db.String(20))
+    color = db.Column(db.String(20))
+    clarity = db.Column(db.String(20))
+    size = db.Column(db.Float)
+    value = db.Column(db.Float)
+
+    def __str__(self):
+        str = 'shape: %s, color: %s, clarity: %s, size, %s' % (self.shape, self.color, self.clarity, self.size)
+        return str
+
+    def __init__(self, shape, color, clarity, size):
+        self.user_id = session['user']['id']
+        self.log_id = session['current_log_id']
+        self.shape = shape
+        self.color = color
+        self.clarity = clarity
+        self.size = size
 
 #Set homepage
-@app.route('/index')
-@app.route('/')
+@app.route('/index/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     """Render website's home page."""
     if 'user' in session:
         user_data = db.session.query(User).filter(User.id == session['user']['id']).first()
-        return render_template('index.html',
+        if request.method == 'POST':
+            session["current_log_id"] = request.form['log_id']
+        if 'current_log_id' in session:
+            current_log = db.session.query(Log).filter(Log.id == session['current_log_id']).first()
+            return render_template('index.html',
+                                   user = session['user'],
+                                   logs = user_data.logs,
+                                   current_log = current_log.name,
+                                   stones = current_log.stones)
+        else:
+            return render_template('index.html',
                                user = session['user'],
                                logs = user_data.logs)
     else:
         return redirect(url_for('login')) #LOGIN AND REGISTER PAGE
 
-@app.route('/index/<log_id>')
-def render_stones(log_id):
-    log = db.session.query(Log).filter(Log.id == log_id).first()
-    user_data = db.session.query(User).filter(User.id == session['user']['id']).first()
-    return render_template('index.html',
-                       user = session['user'],
-                       logs = user_data.logs,
-                       stones = log.stones)
 
 #login and register
 @app.route('/login')
@@ -91,7 +110,7 @@ def create_user():
             new_user = User(email)
             db.session.add(new_user)
             db.session.commit()
-            #login_user(email)
+            login_user(db.session.query(User).filter(User.email == email).first())
             return redirect(url_for('index'))
         session['error'] = 'This e-mail is already assosciated with a user!'
         return redirect(url_for('login'))
@@ -114,8 +133,12 @@ def add_log():
     db.session.commit()
     return redirect(url_for('index'))
 
+#log_id, shape, color, clarity, size
 @app.route('/add_stone', methods=['POST'])
 def add_stone():
+    new_stone = Stone(request.form['shape'], request.form['color'], request.form['clarity'], request.form['size'])
+    db.session.add(new_stone)
+    db.session.commit()
     return redirect(url_for('index'))
 
 @app.route('/logout')
@@ -128,8 +151,7 @@ def login_user(user):
     session['logged_in'] = True
 
 def logout_user():
-    session.pop('user')
-    session['logged_in'] = False
+    session.clear()
 
 app.secret_key = 'YOU_WILL_NEVER_GEUSS'
 

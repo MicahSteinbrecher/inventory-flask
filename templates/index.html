@@ -13,24 +13,24 @@
     </div>
 </form>
 
-<ul id="logs"></ul>
-{% for log in logs %}
-    <li><a href="{{ url_for('index', log_id = log.id) }}">{{ log.name }}</a></li>
-{% else %}
-    <li>Looks like you haven't created any inventory logs yet</li>
-{% endfor %}
-</ul>
+<div>
+    <form action="{{url_for('index')}}" method="POST">
+        {% if not logs %}
+            Looks like you haven't created any inventory logs yet
+        {% else %}
+        <select name="log_id">
+        {% for log in logs %}
+          <option value="{{ log.id }}">{{ log.name }}</option>
+        {% endfor %}
+          <input type="submit" value="go">
+        {% endif %}
+        </select>
+    </form>
+</div>
+<h1>{{ current_log }}</h1>
 
-<ul id="stones"></ul>
-{% for stone in stones %}
-    <li>{{ stone.name }}</li>
-{% else %}
-    <li>Looks like you haven't added any stones to this inventory</li>
-{% endfor %}
-</ul>
-
-<form  action={{url_for('add_stone')}} method="POST">
-    <select name="cut">
+<form  action="{{url_for('add_stone')}}" method="POST">
+    <select name="shape">
         <option value="asscher">asscher</option>
         <option value="cushion">cushion</option>
         <option value="emerald">emerald</option>
@@ -66,11 +66,26 @@
         <option value="I2">I2</option>
         <option value="I3">I3</option>
     </select>
-    Weight: <input type="float" name="weight"> Ct.
+    Weight: <input type="float" name="size"> Ct.
     <span><button type="submit">add stone</button></span>
 </form>
 </div>
 </form>
+
+<ul id="stones"></ul>
+{% if current_log %}
+    {% if stones %}
+        {% for stone in stones %}
+            <li>{{ stone }}</li>
+        {% endfor %}
+    {% else %}
+        <li>Looks like you haven't added any stones to this inventory</li>
+    {% endif %}
+{% else %}
+<li>Looks like you haven't selected an inventory.</li>
+{% endif %}
+</ul>
+
 {% endblock %}
 
 
