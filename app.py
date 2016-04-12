@@ -20,11 +20,15 @@ def index():
         if 'current_log_id' in session:
             current_log = db.session.query(Log).filter(Log.id == session['current_log_id']).first()
             diamonds = change_to_diamonds(current_log.stones)
+            total = 0
+            for diamond in diamonds:
+                total = total + diamond.value
             return render_template('index.html',
                                    user = session['user'],
                                    logs = user_data.logs,
                                    current_log = current_log.name,
-                                   diamonds = diamonds)
+                                   diamonds = diamonds,
+                                   total = total)
         else:
             return render_template('index.html',
                                user = session['user'],
