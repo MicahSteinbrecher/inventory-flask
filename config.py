@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.heroku import Heroku
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
