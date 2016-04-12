@@ -8,27 +8,26 @@
 
 <form class="col-lg-12" action="{{url_for('add_log')}}" method="POST">
     <div style="width:340px;text-align:left;margin:0 auto;">
-        new log: <input placeholder="new log" type="text" name="name">
+        New Inventory: <input type="text" name="name">
         <span><button type="submit">GO</button></span>
     </div>
 </form>
 
 <div>
+    {% if logs.count() %}
     <form action="{{url_for('index')}}" method="POST">
-        {% if not logs %}
-            Looks like you haven't created any inventory logs yet
-        {% else %}
         <select name="log_id">
         {% for log in logs %}
           <option value="{{ log.id }}">{{ log.name }}</option>
         {% endfor %}
           <input type="submit" value="go">
-        {% endif %}
         </select>
     </form>
+    {% endif %}
 </div>
 <h1>{{ current_log }}</h1>
 
+{% if current_log %}
 <form  action="{{url_for('add_stone')}}" method="POST">
     <select name="shape">
         <option value="asscher">asscher</option>
@@ -70,11 +69,17 @@
     <span><button type="submit">add stone</button></span>
 </form>
 </div>
-</form>
+{% endif %}
 
-<table id="stones">
-{% if current_log %}
-    {% if diamonds %}
+
+{% if not logs.count() %}
+    <em>Looks like you haven't created an inventory yet</em>
+{% elif not current_log %}
+    <em>Select an inventory to get started.</em>
+{% elif not diamonds %}
+    <em>Looks like you haven't added any stones to this inventory</em>
+{% else %}
+    <table id="stones">
     <tr><td>SHAPE</td><td>COLOR</td><td>CLARITY</td><td>SIZE</td><td>VALUE</td></tr>
         {% for diamond in diamonds %}
             <tr> <td>{{ diamond.shape }}</td>
@@ -83,15 +88,9 @@
             <td>{{ diamond.size }}</td>
             <td>{{ diamond.value }}</td></tr>
         {% endfor %}
+    </table>
     TOTAL: {{ total }}
-    {% else %}
-        <em>Looks like you haven't added any stones to this inventory</em>
-    {% endif %}
-{% else %}
-<em>Looks like you haven't selected an inventory.</em>
 {% endif %}
-</table>
-
 {% endblock %}
 
 
