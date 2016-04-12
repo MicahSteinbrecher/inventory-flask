@@ -1,5 +1,9 @@
 from config import app, db
 from flask import session
+import requests
+import json
+
+GET_PRICE_ENDPOINT = "https://technet.rapaport.com:449/HTTP/JSON/Prices/GetPrice.aspx"
 
 class Stone(db.Model):
     __tablename__ = 'stones'

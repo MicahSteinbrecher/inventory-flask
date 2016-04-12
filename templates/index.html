@@ -74,13 +74,14 @@
 
 <table id="stones">
 {% if current_log %}
-    {% if stones %}
+    {% if diamonds %}
     <tr><td>SHAPE</td><td>COLOR</td><td>CLARITY</td><td>SIZE</td><td>VALUE</td></tr>
-        {% for stone in stones %}
-            <tr> <td>{{ stone.shape }}</td>
-            <td>{{ stone.color }}</td>
-            <td>{{ stone.clarity }}</td>
-            <td>{{ stone.size }}</td></tr>
+        {% for diamond in diamonds %}
+            <tr> <td>{{ diamond.shape }}</td>
+            <td>{{ diamond.color }}</td>
+            <td>{{ diamond.clarity }}</td>
+            <td>{{ diamond.size }}</td>
+            <td>{{ diamond.value }}</td></tr>
         {% endfor %}
     {% else %}
         <em>Looks like you haven't added any stones to this inventory</em>

@@ -6,6 +6,7 @@ from models.User import User
 from models.Log import Log
 from models.Stone import Stone
 from config import app, db
+from Rapaport.diamond import Diamond
 
 #Set homepage
 @app.route('/index/', methods=['GET', 'POST'])
@@ -18,17 +19,37 @@ def index():
             session["current_log_id"] = request.form['log_id']
         if 'current_log_id' in session:
             current_log = db.session.query(Log).filter(Log.id == session['current_log_id']).first()
+            diamonds = change_to_diamonds(current_log.stones)
             return render_template('index.html',
                                    user = session['user'],
                                    logs = user_data.logs,
                                    current_log = current_log.name,
-                                   stones = current_log.stones)
+                                   diamonds = diamonds)
         else:
             return render_template('index.html',
                                user = session['user'],
                                logs = user_data.logs)
     else:
         return redirect(url_for('login')) #LOGIN AND REGISTER PAGE
+
+def change_to_diamonds(stones):
+    diamonds = []
+    for stone in stones:
+        diamond = Diamond()
+        diamond.set_clarity(stone.clarity)
+        diamond.set_color(stone.color)
+        diamond.set_size(stone.size)
+        diamond.set_shape('round')
+        diamond.value = diamond.get_carat_price(os.environ['RAPAPORT_USERNAME'], os.environ['RAPAPORT_PASSWORD']) * stone.size
+        diamond.set_shape(stone.shape)
+        diamonds.append(diamond)
+    return diamonds
+
+def get_rapaport_shape(shape):
+    if shape == 'oval' or shape == 'marquise' or shape == 'heart' or shape == 'pear':
+        return 'oval'
+    else:
+        return 'round'
 
 
 #login and register
