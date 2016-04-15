@@ -5,17 +5,19 @@
     <div class="col-md-8 col-md-offset-2">
         <h1>Inventory Tracker</h1>
         <form action="{{url_for('create_user')}}" method="POST">
-            <div style="width:340px;text-align:center;margin:0 auto;">
-                Register: <input placeholder="Enter your email address" type="email" name="email" style="color:#000000">
-                <span><button type="submit" style= "background: #666666;">GO</button></span>
+            <div class = 'form-group' style="width:340px;text-align:center;margin:0 auto;">
+                <label for="register">Register</label>
+                <input class="form-control" id = 'register' placeholder="Enter your email address" type="email" name="email" style="color:#000000">
+                <span><button class="btn" type="submit" style= "background: #666666;">Register</button></span>
             </div>
         </form>
         <br>
 
         <form action="{{url_for('validate_login')}}" method="POST">
-            <div style="width:340px;text-align:center;margin:0 auto;">
-                Log-in: <input placeholder="Enter your email address" type="email" name="email" style="color:#000000">
-                <span><button type="submit" style= "background: #666666;">GO</button></span>
+            <div class = 'form-group' style="width:340px;text-align:center;margin:0 auto;">
+                <label for="login">Log In</label>
+                <input class="form-control" id = 'login' placeholder="Enter your email address" type="email" name="email" style="color:#000000">
+                <span><button class="btn" type="submit" style= "background: #666666;">Login</button></span>
             </div>
         </form>
 

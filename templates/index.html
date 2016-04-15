@@ -12,8 +12,9 @@
 
 <div>
     {% if logs.count() %}
-    <form action="{{url_for('index')}}" method="POST">
-        <select name="log_id">
+    <form action="{{url_for('index')}}" method="POST" class="form-group">
+        <label for="inventories">Available Inventories:</label>
+        <select id="inventories" class="form-control">
         {% for log in logs %}
           <option value="{{ log.id }}">{{ log.name }}</option>
         {% endfor %}
@@ -63,7 +64,7 @@
         <option value="I3">I3</option>
     </select>
     Weight: <input type="float" name="size" style="color:#000000"> Ct.
-    <span><button type="submit">add stone</button></span>
+    <span><button type="submit" style="background:#666666">add stone</button></span>
 </form>
 </div>
 {% endif %}
@@ -76,7 +77,7 @@
 {% elif not diamonds %}
     <em>Looks like you haven't added any stones to this inventory</em>
 {% else %}
-    <table id="stones">
+    <table id="stones" class="table table-bordered">
     <tr><td>SHAPE</td><td>COLOR</td><td>CLARITY</td><td>SIZE</td><td>VALUE</td></tr>
         {% for diamond in diamonds %}
             <tr> <td>{{ diamond.shape }}</td>

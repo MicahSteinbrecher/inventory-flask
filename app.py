@@ -45,7 +45,10 @@ def change_to_diamonds(stones):
         diamond.set_color(stone.color)
         diamond.set_size(stone.size)
         diamond.set_shape('round')
-        diamond.value = diamond.get_carat_price(os.environ['RAPAPORT_USERNAME'], os.environ['RAPAPORT_PASSWORD']) * stone.size
+        try:
+            diamond.value = diamond.get_carat_price(os.environ['RAPAPORT_USERNAME'], os.environ['RAPAPORT_PASSWORD']) * stone.size
+        except:
+            diamond.value = -1
         diamond.set_shape(stone.shape)
         diamonds.append(diamond)
     return diamonds
