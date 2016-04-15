@@ -8,6 +8,7 @@ from models.Stone import Stone
 from config import app, db
 from Rapaport.diamond import Diamond
 
+
 #Set homepage
 @app.route('/index/', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])

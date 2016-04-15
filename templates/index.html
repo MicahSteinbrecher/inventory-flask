@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>
-| <a href="{{ url_for('logout') }}">Logout</a>
-</div>
-    <h1>Hi, {{ user.nickname }}!</h1>
+<h1>Hi, {{ user.nickname }}!</h1>
 
 <form class="col-lg-12" action="{{url_for('add_log')}}" method="POST">
     <div style="width:340px;text-align:left;margin:0 auto;">
-        New Inventory: <input type="text" name="name">
-        <span><button type="submit">GO</button></span>
+        New Inventory: <input type="text" name="name" style="color:#000000">
+        <span><button type="submit" style="background: #666666;">GO</button></span>
     </div>
 </form>
 
@@ -20,7 +17,7 @@
         {% for log in logs %}
           <option value="{{ log.id }}">{{ log.name }}</option>
         {% endfor %}
-          <input type="submit" value="go">
+          <input type="submit" value="GO" style="background: #666666;">
         </select>
     </form>
     {% endif %}
@@ -65,7 +62,7 @@
         <option value="I2">I2</option>
         <option value="I3">I3</option>
     </select>
-    Weight: <input type="float" name="size"> Ct.
+    Weight: <input type="float" name="size" style="color:#000000"> Ct.
     <span><button type="submit">add stone</button></span>
 </form>
 </div>
