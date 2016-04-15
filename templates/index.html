@@ -14,7 +14,7 @@
     {% if logs.count() %}
     <form action="{{url_for('index')}}" method="POST" class="form-group">
         <label for="inventories">Available Inventories:</label>
-        <select id="inventories" class="form-control">
+        <select id="inventories" name='log_id' class="form-control">
         {% for log in logs %}
           <option value="{{ log.id }}">{{ log.name }}</option>
         {% endfor %}
