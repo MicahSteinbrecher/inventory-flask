@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Hi, {{ user.nickname }}!</h1>
+<div class="row">
+    <h4 >Hi, {{ user.nickname }}!</h4>
+</div>
 
-<form class="col-lg-12" action="{{url_for('add_log')}}" method="POST">
-    <div style="width:340px;text-align:left;margin:0 auto;">
-        New Inventory: <input type="text" name="name" style="color:#000000">
-        <span><button type="submit" style="background: #666666;">GO</button></span>
-    </div>
-</form>
+<div class="row">
+    <form class="col-lg-12" action="{{url_for('add_log')}}" method="POST">
+        <label for="new_inventory" >New Inventory</label>
+        <input type="text" class="form-control" name="name" id='new_inventory' style="color:#000000">
+            <span><button class="btn" type="submit" style="background: #666666;">GO</button></span>
+    </form>
+</div>
 
 <div>
     {% if logs.count() %}
@@ -18,7 +21,7 @@
         {% for log in logs %}
           <option value="{{ log.id }}">{{ log.name }}</option>
         {% endfor %}
-          <input type="submit" value="GO" style="background: #666666;">
+          <input class="btn" type="submit" value="GO" style="background: #666666;">
         </select>
     </form>
     {% endif %}
