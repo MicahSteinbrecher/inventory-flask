@@ -29,8 +29,9 @@
 <h1>{{ current_log }}</h1>
 
 {% if current_log %}
-<form  action="{{url_for('add_stone')}}" method="POST">
-    <select name="shape">
+<div>
+<form  action="{{url_for('add_stone')}}" method="POST" class="form-group form-inline">
+    <select name="shape" class="form-control invent_descriptors">
         <option value="asscher">asscher</option>
         <option value="cushion">cushion</option>
         <option value="emerald">emerald</option>
@@ -40,7 +41,7 @@
         <option value="princess">princess</option>
         <option value="radiant">radiant</option>
     </select>
-    <select name="color">
+    <select name="color" class="form-control invent_descriptors">
         <option value="D">D</option>
         <option value="E">E</option>
         <option value="F">F</option>
@@ -53,7 +54,7 @@
         <option value="M">M</option>
         <option value="N">N</option>
     </select>
-    <select name="clarity">
+    <select name="clarity" class="form-control invent_descriptors">
         <option value="IF">IF</option>
         <option value="VVS1">VVS1</option>
         <option value="VVS2">VVS2</option>
@@ -80,8 +81,8 @@
 {% elif not diamonds %}
     <em>Looks like you haven't added any stones to this inventory</em>
 {% else %}
-    <table id="stones" class="table table-bordered">
-    <tr><td>SHAPE</td><td>COLOR</td><td>CLARITY</td><td>SIZE</td><td>VALUE</td></tr>
+    <table id="stones" class = "table table-striped" BGCOLOR="#ffff00">
+    <tr><th>SHAPE</th><th>COLOR</th><th>CLARITY</th><th>SIZE</th><th>VALUE</th></tr>
         {% for diamond in diamonds %}
             <tr> <td>{{ diamond.shape }}</td>
             <td>{{ diamond.color }}</td>
